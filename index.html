@@ -223,21 +223,11 @@ const CATS={mekanik:'Mekanik Tesisat',hvac:'HVAC / İklimlendirme',yangin:'Yang�
 
 /* ============ Örnek veri ============ */
 const DEMO_EMAIL='musa@efemmekanik.com';
-function seedData(name,acc){const U={name,title:acc.type==='individual'?(acc.profession||''):'Teknik Ofis'};
- const gr=(id,num,date,rows,mats)=>({id,type:'gunluk_rapor',num,title:'Günlük Rapor — '+fmt(date),date,project:'p1',status:'final',ai:true,c:{hava_durumu:'Güneşli',sicaklik:'19°C',calisma_saatleri:'08:00 - 18:00',imalatlar:rows,personel:[{role:'Mekanik montaj ekibi',count:'4',saat:'9'}],ekipman:['Kaynak makinesi','Zincirli vinç'],gelen_malzemeler:mats,isg:['Kişisel koruyucu donanım kullanımı kontrol edilmiştir.'],sorunlar:'Herhangi bir sorun bildirilmemiştir.',yarin_plan:[],hazirlayan_ad:U.name,hazirlayan_unvan:U.title,onaylayan_ad:'',onaylayan_unvan:''}});
- return{company:acc,user:U,
- projects:[{id:'p1',name:'The Land of Legends — Yağmur Hattı Terfi Merkezi',code:'TLL-2026-07',employer:'The Land of Legends Tema Park',site:'Kadriye Şantiyesi',city:'Antalya',disc:'mekanik',status:'Aktif'},
-  {id:'p2',name:'Selectum Colours Side — Güneş Paneli Revizyonu',code:'SCS-2026-03',employer:'Selectum Colours Side',site:'Side',city:'Antalya',disc:'elektrik',status:'Aktif'},
-  {id:'p3',name:'XYZ Otel — Yangın Tesisatı Revizyonu',code:'XYZ-2026-11',employer:'XYZ Otel',site:'Bodrum',city:'Muğla',disc:'yangin',status:'Beklemede'},
-  {id:'p4',name:'Merkez Ofis Binası — Kaba İnşaat',code:'MOB-2026-02',employer:'ABC Yapı',site:'Çankaya',city:'Ankara',disc:'insaat',status:'Aktif'}],
- docs:[gr('d3','GR-2026-0003','2026-11-21',[{mahal:'Terfi merkezi',is:'3 adet pompa bağlantısı yapıldı',ilerleme:'Tamamlandı'},{mahal:'Terfi merkezi',is:'Sistem test edildi',ilerleme:'Tamamlandı'}],[]),
-  gr('d2','GR-2026-0002','2026-11-19',[{mahal:'Atölye',is:'Yeni kollektör imal edildi',ilerleme:'Tamamlandı'}],[{name:'DN150 çelik boru',quantity:'6',unit:'m'},{name:'DN100 flanş',quantity:'8',unit:'adet'}]),
-  gr('d1','GR-2026-0001','2026-11-17',[{mahal:'Terfi merkezi',is:'Eski kollektör söküldü',ilerleme:'Tamamlandı'}],[])],
- counters:{ITT:0,TR:0,GR:3},ai:0,
- payments:[{id:'h1',project:'p1',num:1,ps:'2026-11-01',pe:'2026-11-15',vat:20,status:'approved',items:[{poz:'01',desc:'100 mm boru',unit:'m',cq:'150',up:'450',pq:'0',q:'120'},{poz:'02',desc:'Fancoil montajı',unit:'adet',cq:'10',up:'3500',pq:'0',q:'8'},{poz:'03',desc:'Pompa bağlantısı',unit:'adet',cq:'3',up:'6250',pq:'0',q:'1'}]}]}}
-let S;try{S=JSON.parse(localStorage.getItem('toai-demo-v4'))}catch(e){}
-if(!S||!S.accounts){S={accounts:{},session:null};S.accounts[DEMO_EMAIL]={type:'company',name:'Musa',data:seedData('Musa',{type:'company',name:'EFEM MEKANİK',address:'Güzeloba Mah. Muratpaşa / ANTALYA',phone:'0242 000 00 00',email:'info@efemmekanik.com',tax:'Antalya Kurumlar · 1234567890'})}}
-const save=()=>{try{localStorage.setItem('toai-demo-v4',JSON.stringify(S))}catch(e){if(typeof toast==='function')toast('Tarayıcı depolama alanı doldu; son değişiklik kaydedilemedi. Bazı fotoğrafları kaldırın.')}};
+function seedData(name,acc){const U={name,title:acc.type==='individual'?(acc.profession||''):'Yönetici'};
+ return{company:acc,user:U,projects:[],docs:[],counters:{},ai:0,payments:[]}}
+let S;try{S=JSON.parse(localStorage.getItem('toai-efem-v1'))}catch(e){}
+if(!S||!S.accounts){S={accounts:{},session:null};S.accounts[DEMO_EMAIL]={type:'company',name:'Musa Çelebi',data:seedData('Musa Çelebi',{type:'company',name:'EFEM MEKANİK',address:'',phone:'',email:'',tax:''})}}
+const save=()=>{try{localStorage.setItem('toai-efem-v1',JSON.stringify(S))}catch(e){if(typeof toast==='function')toast('Tarayıcı depolama alanı doldu; son değişiklik kaydedilemedi. Bazı fotoğrafları kaldırın.')}};
 const D=()=>S.accounts[S.session]?.data;
 
 /* ============ Resmî dil düzeltici (gerçek uygulamadaki formal.ts) ============ */
@@ -294,7 +284,7 @@ function review(T,c,source){const checks=[],warn=[];let dup=0;
  return{c,checks,warn}}
 
 /* ============ Durum ve gezinme ============ */
-const V={view:'asistan',doc:null,edit:false,auth:'giris',atab:'company',rtype:'company',err:'',a:{text:'The Land of Legends otelinde yağmur hattı terfi merkezi revizyonu yapildi, eski kollektor sokuldu yeni kollektör imal edildi ve 3 ad pompa baglantisi yapildi. sistem test edildi',project:'p1',date:today,res:null,type:'',busy:false},q:'',ft:'',fc:'',fd:''};
+const V={view:'asistan',doc:null,edit:false,auth:'giris',atab:'company',rtype:'company',err:'',a:{text:'',project:'p1',date:today,res:null,type:'',busy:false},q:'',ft:'',fc:'',fd:''};
 const NAV=[['ana-sayfa','Ana Sayfa','home'],['projeler','Projeler','proj'],['belgeler','Belgeler','doc'],['asistan','AI Asistan','ai'],['','Maliyet & Hakediş'],['hakedis','Hakediş','money'],['m-metraj','Metraj','ruler',1],['m-kesif','Keşif','money',1],['m-teklif','Teklifler','doc',1],['','Kaynaklar'],['m-malzeme','Malzemeler','box',1],['m-personel','Personel','users',1],['m-puantaj','Puantaj','clock',1],['','Yönetim'],['sablonlar','Şablonlar','tpl'],['firma','Firma Ayarları','set']];
 const MOD={'m-hakedis':['Hakediş',['Poz, miktar, birim fiyat','Önceki / bu / kümülatif hakediş','KDV hariç, KDV, KDV dahil','Excel çıktısı']],'m-metraj':['Metraj',['Excel / PDF yükleme','AI ile metinden metraj tablosu']],'m-kesif':['Keşif',['Malzeme, işçilik, nakliye, montaj, genel gider, kâr, KDV','AI tahmini – kullanıcı tarafından doğrulanmalıdır.']],'m-teklif':['Teklifler',['Kalem bazlı profesyonel teklif','PDF ve Word çıktısı']],'m-malzeme':['Malzemeler',['Kod, marka, model, alış/satış fiyatı, stok']],'m-personel':['Personel',['Görev, departman, aktif/pasif']],'m-puantaj':['Puantaj',['Mesai oranı ve ücret hesabı','Excel çıktısı']]};
 function toast(m){$('#layer').innerHTML=`<div class="toast">${esc(m)}</div>`;setTimeout(()=>{const t=$('.toast');if(t)t.remove()},2400)}
@@ -311,7 +301,7 @@ function vAuth(){const art=`<div class="art"><div class="brand" style="padding:0
   <div class="tabs" role="tablist"><button type="button" class="${V.atab==='company'?'on':''}" data-atab="company">Şirket girişi</button><button type="button" class="${V.atab==='individual'?'on':''}" data-atab="individual">Bireysel giriş</button></div>
   <form id="lf">${V.err?`<p class="err">${esc(V.err)}</p>`:''}<div class="f"><label class="l" for="le">${V.atab==='company'?'Şirket e-posta adresi':'E-posta'}</label><input class="in" id="le" type="email" required autocomplete="email" value="${V.atab==='company'?DEMO_EMAIL:''}"></div><div class="f"><label class="l" for="lp">Şifre</label><input class="in" id="lp" type="password" required autocomplete="current-password" value="${V.atab==='company'?'demo1234':''}"></div>
   <button class="btn" style="width:100%">${V.atab==='company'?'Şirket olarak giriş yap':'Bireysel giriş yap'}</button></form>
-  <p class="hint">Demo: şirket girişi için örnek hesap dolu geldi. Bireysel denemek için önce kayıt olun.</p>
+  <p class="hint">EFEM MEKANİK yönetici hesabı (Musa Çelebi) dolu geldi; Giriş Yap'a basmanız yeterli.</p>
   <p style="text-align:center;margin-top:18px;font-size:14px">Hesabınız yok mu? <a href="#" data-auth="kayit" style="color:var(--accent-ink);font-weight:600">Ücretsiz kayıt olun</a></p>`;
  else if(V.auth==='kayit')box=`<h1>Hesap oluşturun</h1><p class="sub">Şirketinizle ya da bireysel olarak ücretsiz başlayın.</p>
   <form id="rf">${V.err?`<p class="err">${esc(V.err)}</p>`:''}<label class="l">Hesap tipi</label>${types(V.rtype,'data-rtype')}
@@ -382,7 +372,7 @@ function vFirma(){const c=D().company,ind=isInd();return`<div class="head"><div>
  <form class="card pad" id="cf" style="max-width:760px"><div class="f2">${[['name',ind?'Ad soyad / işletme adı':'Firma adı'],[ind?'profession':'legal',ind?'Meslek / unvan':'Ticari unvan'],['phone','Telefon'],['email','E-posta'],['tax',ind?'Vergi no (varsa)':'Vergi dairesi / no']].map(([k,l])=>`<div class="f"><label class="l" for="c-${k}">${l}</label><input class="in" id="c-${k}" name="${k}" value="${esc(c[k]||'')}"></div>`).join('')}
  <div class="f"><label class="l" for="c-city">Şehir</label><select class="in" id="c-city" name="city"><option value="">Seçin</option>${CITIES.map(x=>`<option ${c.city===x?'selected':''}>${x}</option>`).join('')}</select></div></div>
  <div class="f"><label class="l" for="c-address">Adres</label><input class="in" id="c-address" name="address" value="${esc(c.address||'')}"></div><button class="btn">Kaydet</button>
- <button type="button" class="btn sec" id="reset" style="margin-left:8px">Demo verisini sıfırla</button></form>`}
+ <button type="button" class="btn sec" id="reset" style="margin-left:8px">Tüm verileri sil</button></form>`}
 
 function vMod(k){const[t,f]=MOD[k];return`<div class="head"><div><h1>${t}</h1><p class="sub">Bu modül sonraki fazda geliştirilecek.</p></div></div><div class="card soonbox"><b>Yakında</b><br><ul>${f.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><br><a class="btn sec" href="#asistan">Şimdilik AI Asistan'ı kullan</a></div>`}
 
@@ -505,7 +495,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
   case'hcopy':{const P=D().payments.find(x=>x.id===V.pay),R=calcPay(P.items,P.vat);const head=['Poz','İş kalemi','Birim','Sözleşme mik.','Birim fiyat','Önceki mik.','Bu hakediş mik.','Kümülatif mik.','Kalan','Bu hakediş tutarı','Kümülatif tutar'];
    const n=x=>String(x).replace('.',',');const lines=[head.join('\t'),...R.rows.map(r=>[r.poz,r.desc,r.unit,n(trNum(r.cq)),n(trNum(r.up)),n(trNum(r.pq)),n(trNum(r.q)),n(r.cum),n(r.rem),n(r.cur),n(r.cumA)].join('\t')),'',['','KDV hariç','','','','','','','',n(R.t.cur),n(R.t.cum)].join('\t'),['','KDV dahil','','','','','','','',n(R.t.curT),n(R.t.cumT)].join('\t')];
    navigator.clipboard?.writeText(lines.join('\n')).then(()=>toast('Tablo kopyalandı; Excel\'de bir hücreye yapıştırın.'),()=>toast('Kopyalanamadı.'));break}
-  case'reset':{const acc=S.accounts[S.session];acc.data=seedData(acc.name,{...acc.data.company});save();toast('Demo verisi sıfırlandı.');render();break}}});
+  case'reset':{if(!confirm('Bu tarayıcıdaki tüm projeler, belgeler ve kayıtlar silinecek. Emin misiniz?'))break;const acc=S.accounts[S.session];acc.data=seedData(acc.name,{...acc.data.company});save();toast('Tüm veriler silindi.');render();break}}});
 document.addEventListener('submit',e=>{e.preventDefault();const id=e.target.id;
  if(id==='lf'){const em=$('#le').value.trim().toLowerCase(),acc=S.accounts[em];if(!acc){V.err='Bu e-posta ile kayıtlı hesap bulunamadı. Önce kayıt olun.';return render()}
   if(acc.type!==V.atab){V.err=`Bu e-posta ${ATYPE[acc.type][0].toLocaleLowerCase('tr-TR')} hesabına ait. "${acc.type==='company'?'Şirket':'Bireysel'} girişi" sekmesini kullanın.`;return render()}
@@ -590,11 +580,9 @@ function extraSuggest(t){const l=t.toLocaleLowerCase('tr-TR'),o=[];const add=(k,
  return o}
 
 /* ---- Yardımcılar ---- */
-function ensure(){const d=D();d.payments??=[];d.sheets??=seedSheets();d.materials??=[{id:'m1',kod:'PPR-32',ad:'Ø32 PPRC boru',marka:'Firat',birim:'m',alis:'48',satis:'62',stok:'250',kategori:'Boru'},{id:'m2',kod:'PPR-25',ad:'Ø25 PPRC boru',marka:'Firat',birim:'m',alis:'34',satis:'45',stok:'180',kategori:'Boru'},{id:'m3',kod:'VN-32',ad:'Küresel vana Ø32',marka:'ECA',birim:'adet',alis:'420',satis:'540',stok:'24',kategori:'Vana'},{id:'m4',kod:'FC-400',ad:'Fancoil 400 CFM',marka:'Daikin',birim:'adet',alis:'14500',satis:'17900',stok:'6',kategori:'HVAC'}];
- d.employees??=[{id:'e1',ad:'Ali Yılmaz',tc:'',gorev:'Mekanik usta',departman:'Saha',telefon:'0532 000 00 01',gunluk_ucret:'1500',baslama:'2025-03-01',aktif:'1'},{id:'e2',ad:'Mehmet Kaya',tc:'',gorev:'Kaynakçı',departman:'Saha',telefon:'0532 000 00 02',gunluk_ucret:'1800',baslama:'2024-09-15',aktif:'1'},{id:'e3',ad:'Ayşe Demir',tc:'',gorev:'Teknik ofis',departman:'Ofis',telefon:'',gunluk_ucret:'2000',baslama:'2026-01-10',aktif:'1'}];
- d.tasks??=[{id:'t1',baslik:'Fancoil bağlantılarını tamamla',aciklama:'B blok 2. kat',proje:'p1',atanan:'Ali Yılmaz',son_tarih:addDays(2),oncelik:'yuksek',durum:'doing'},{id:'t2',baslik:'Yangın dolabı test tutanağı',aciklama:'',proje:'p3',atanan:'Ayşe Demir',son_tarih:addDays(-1),oncelik:'normal',durum:'todo'},{id:'t3',baslik:'Pompa bağlantı malzemesi siparişi',aciklama:'',proje:'p1',atanan:'',son_tarih:addDays(5),oncelik:'normal',durum:'done'}];
- d.members??=[{id:'u1',name:d.user.name,email:S.session,role:'ADMIN',active:true,self:true},{id:'u2',name:'Ayşe Demir',email:'ayse@ornek.com',role:'TECHNICAL_OFFICE',active:true},{id:'u3',name:'Hasan Şen',email:'hasan@ornek.com',role:'SITE_MANAGER',active:true}];
- d.invites??=[];d.usage??=seedUsage();d.plan??='STARTER';if(!('sub' in d))d.sub={status:'active',end:addDays(30),cancel:false};d.chat??=[]}
+function ensure(){const d=D();d.payments??=[];d.sheets??=[];d.materials??=[];d.employees??=[];d.tasks??=[];
+ d.members??=[{id:'u1',name:d.user.name,email:S.session,role:'ADMIN',active:true,self:true}];
+ d.invites??=[];d.usage??=[];d.plan??='STARTER';if(!('sub' in d))d.sub={status:'active',end:addDays(30),cancel:false};d.chat??=[]}
 const addDays=n=>{const x=new Date();x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
 function seedUsage(){const o=[],f=['generate_document','analyze','chat','photo','sheet_kesif'],now=new Date();for(let i=0;i<46;i++){const day=Math.max(1,now.getDate()-(i%now.getDate()));o.push({f:f[i%5],day,cached:i%6===0,cost:i%6===0?0:+(0.002+((i*7)%11)/1000).toFixed(4),user:i%3===0?'u2':'u1'})}return o}
 const nf=n=>Number(n||0).toLocaleString('tr-TR',{maximumFractionDigits:2});
@@ -849,7 +837,7 @@ chatReply=function(q){try{if(window.TOAI)return TOAI.mockChatReply(q)}catch(e){}
 
 /* ---- Hakediş kesintileri ---- */
 function payDeds(P){if(!P.deds){const prev=D().payments.filter(x=>x.project===P.project&&x.num<P.num).sort((a,b)=>b.num-a.num)[0];
-  P.deds=prev?.deds?prev.deds.map(x=>({...x,value:x.mode==='amount'?'0':x.value})):(P.id==='h1'?[{label:'Teminat kesintisi',mode:'percent',base:'current',value:'5'},{label:'Damga vergisi (binde 9,48)',mode:'percent',base:'current',value:'0,948'}]:[])}return P.deds}
+  P.deds=prev?.deds?prev.deds.map(x=>({...x,value:x.mode==='amount'?'0':x.value})):[]}return P.deds}
 function dedCalc(P){const R=calcPay(P.items,P.vat),ds=payDeds(P).map(x=>({label:x.label||'Kesinti',mode:x.mode,base:x.base,value:trNum(x.value)}));
  const totals={current:R.t.cur,current_vat:R.t.curV,current_with_vat:R.t.curT};
  return window.TOAI?TOAI.calcDeductions(totals,TOAI.sanitizeDeductions(ds)):(()=>{const b={current:totals.current,vat:totals.current_vat,current_with_vat:totals.current_with_vat};const lines=ds.map(x=>({...x,amount:r2(x.mode==='amount'?x.value:b[x.base]*x.value/100)}));const total=r2(lines.reduce((a,l)=>a+l.amount,0));return{lines,total,net_payable:r2(totals.current_with_vat-total)}})()}
@@ -871,7 +859,7 @@ const _rP=refreshPay;refreshPay=function(){_rP();refreshDed()};
 
 /* ---- Bugün paneli ---- */
 function myName(){return D().user.name}
-function activity(){const d=D(),U=d.user;d.activity??=[{who:'Hasan Şen',what:'Günlük rapor yazdı',ref:'GR-2026-0003 · Terfi merkezi',at:Date.now()-3*864e5},{who:'Ayşe Demir',what:'Keşif tablosunu güncelledi',ref:'KSF-2026-0001',at:Date.now()-5*36e5},{who:'Ayşe Demir',what:'1. hakedişi onaya gönderdi',ref:'TLL-2026-07',at:Date.now()-26*36e5}];
+function activity(){const d=D(),U=d.user;d.activity??=[];
  const docs=d.docs.filter(x=>!x.ai||x.id.length>3).slice(0,8).map(x=>({who:U.name,what:(x.status==='final'?'Belgeyi kesinleştirdi':'Belge oluşturdu'),ref:x.num+' · '+x.title,at:Number(x.id.slice(1))||new Date(x.date).getTime()}));
  return[...d.activity,...docs].sort((a,b)=>b.at-a.at).slice(0,8)}
 const ago=ms=>{const m=Math.round((Date.now()-ms)/6e4);return m<1?'az önce':m<60?m+' dk önce':m<1440?Math.round(m/60)+' sa önce':Math.round(m/1440)+' gün önce'};
@@ -920,7 +908,6 @@ document.addEventListener('input',e=>{const el=e.target;if(el.dataset?.di===unde
 document.addEventListener('change',e=>{const el=e.target;if(el.dataset?.di===undefined||el.tagName!=='SELECT')return;const P=D().payments.find(x=>x.id===V.pay);if(!P)return;
  payDeds(P)[+el.dataset.di][el.dataset.dk]=el.value;save();render()});
 /* Görev seed: kullanıcıya atanmış iş */
-const _ens=ensure;ensure=function(){_ens();const d=D();if(!d._v6){d._v6=1;d.tasks.push({id:'t4',baslik:'Terfi merkezi teslim tutanağını hazırla',aciklama:'Günlük raporlardan tarihçe otomatik gelir.',proje:'p1',atanan:d.user.name,son_tarih:today,oncelik:'yuksek',durum:'todo'},{id:'t5',baslik:'2. hakediş metrajını kontrol et',aciklama:'',proje:'p1',atanan:d.user.name,son_tarih:addDays(3),oncelik:'normal',durum:'todo'});save()}};
 
 const route=()=>{const h=location.hash.slice(1);V.pf=null;V.view=h&&(NAV.some(n=>n[0]===h))?h:'asistan';V.doc=null;V.edit=false;V.sheet=null;V.shprev=false;$('#layer').innerHTML='';render()};
 addEventListener('hashchange',route);route();
